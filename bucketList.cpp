@@ -19,7 +19,8 @@ class Bucket{
     private:
         vector<int> v;
     public:
-        Bucket();
+        Bucket(){}
+
         void generate(int size, int min, int max) {
             for (int i = 0; i < size; i++) {
                 v.push_back(rand() % (max-min+1) + min);
