@@ -13,26 +13,68 @@
 
 using namespace std;
 
+int globalSwapCount = 0;
+
 class Bucket{
     private:
         vector<int> v;
     public:
         Bucket();
-        void generate(int size, int min, int max);
-        
-        void sort(int A[], int size) { // Use the bubble sort from Prog3 and Prog4
-            for (int i = 0; i < size - 1; i++) {
-                for (int j = 0; j < size - i - 1; j++) {
-                    if (A[j] > A[j+1]) {
-                        swap(A[j], A[j+1]);
+        void generate(int size, int min, int max) {
+            for (int i = 0; i < size; i++) {
+                v.push_back(rand() % (max-min+1) + min);
+            }
+        }
+
+        void sort() { // Use the bubble sort from Prog3 and Prog4
+            for (int i = 0; i < size() - 1; i++) {
+                for (int j = 0; j < size() - i - 1; j++) {
+                    if (v[j] > v[j+1]) {
+                        swap(v[j], v[j+1]);
+                        globalSwapCount++;
                     }
                 }
             }
         }
 
-        int size();
-        int atIndex(int);
-        int merge(Bucket b); // merge b into this
+        int size() {
+            return v.size();
+        }
+
+        int atIndex(int i) {
+            return v[i];
+        }
+
+        int merge(Bucket b) { // merge b into this
+            vector<int> bucket2;
+            for(int i = 0; i < b.size(); i++) {
+                bucket2.push_back(b.atIndex(i));
+            }
+
+            vector<int> temp;
+            int i = 0, j = 0;
+            while(i < size() && j < bucket2.size()) {
+                if (v[i] <= bucket2[j]) {
+                    temp.push_back(v[i]);
+                    i++;
+                } else {
+                    temp.push_back(bucket2[j]);
+                    j++;
+                }
+            }
+
+            while(i < size()) {
+                temp.push_back(v[i]);
+                i++;
+            }
+
+            while(j < b.size()) {
+                temp.push_back(bucket2[j]);
+                j++;
+            }
+
+            v = temp;
+        }
 };
 
 // usage: $ bucketList 100 100 1000000 9000000
