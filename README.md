@@ -1,1 +1,3 @@
-List of Buckets program for cecs325
+program involving list of buckets
+
+for when you need to list your buckets idk,,
